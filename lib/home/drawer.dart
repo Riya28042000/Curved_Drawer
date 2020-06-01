@@ -48,7 +48,7 @@ this.items,
       this.animationCurve = Curves.easeOut,
       this.animationDuration = const Duration(milliseconds: 600),
       this.width = 75,
-      this.title="drawer",
+      this.title=" ",
       this.isEndDrawer = false})
       : assert(items != null),
         assert(items.length >= 1),
