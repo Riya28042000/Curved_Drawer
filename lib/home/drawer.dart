@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-
+import 'package:drawer/home/curved.dart';
+import 'package:drawer/home/fade.dart';
 import 'package:drawer/src/drawer_custom_painter.dart';
 import 'package:drawer/src/drawer_nav_item.dart';
+import 'package:flutter/material.dart';
 
 
 
@@ -11,6 +12,7 @@ class CurvedDrawer extends StatefulWidget {
   final List<DrawerItem> items;
   //currently selected index
   final int index;
+  
   //color of the drawer
   final Color color;
   //color of the pill or cirlce that is shown when selected
@@ -35,8 +37,9 @@ class CurvedDrawer extends StatefulWidget {
       {Key key,
      @required 
 this.items,
+
       //default select first item
-      this.index = 0,
+      this.index=2,
       this.color = Colors.white,
       this.buttonBackgroundColor = Colors.white,
       this.labelColor = Colors.black54,
@@ -87,7 +90,7 @@ class _CurvedDrawerState extends State<CurvedDrawer>
   ];
 
   double _startingPos;
-  int _endingIndex = 0;
+  int _endingIndex;
   double _pos;
   double _buttonHide = 0;
   DrawerNavItem _icon;
@@ -97,7 +100,15 @@ class _CurvedDrawerState extends State<CurvedDrawer>
   //List<DrawerNavItem> _items;
   List<DrawerNavItem> _items = [];
 
-   
+//  int selectedIndex = 2;
+  // List<Widget> abc = [
+  //   News(),
+  //   Schedule(),
+  //   Home(),
+  //   Register(),
+  //   AboutUs()
+  // ];
+
   @override
   void initState() {
     super.initState();
@@ -110,6 +121,7 @@ class _CurvedDrawerState extends State<CurvedDrawer>
     //     size: widget.width / 3,
     //   );
     // }).toList();
+    _endingIndex=widget.index;
     widget.items.forEach((item) {
       _items.add(DrawerNavItem(
         icon: item.icon,
@@ -128,6 +140,7 @@ class _CurvedDrawerState extends State<CurvedDrawer>
     _animationController.addListener(() {
       setState(() {
         _pos = _animationController.value;
+         
         final endingPos = _endingIndex / widget.items.length;
         final middle = (_startingPos + endingPos) / 2;
         if ((endingPos - _pos).abs() < (_startingPos - _pos).abs()) {
@@ -136,7 +149,10 @@ class _CurvedDrawerState extends State<CurvedDrawer>
         _buttonHide =
             (1 - ((middle - _pos) / (_startingPos - middle)).abs()).abs();
       });
-    });
+      
+    }
+    );
+     
   }
 
   @override
@@ -208,7 +224,7 @@ class _CurvedDrawerState extends State<CurvedDrawer>
                           painter: DrawerCustomPainter(
                               _pos,
                               _length,
-                              widget.color,
+                             Colors.blue[900],
                               Directionality.of(context),
                               widget.width,
                               widget.isEndDrawer),
@@ -224,12 +240,12 @@ class _CurvedDrawerState extends State<CurvedDrawer>
                         child: Column(
                             children: _items.map((item) {
                           return NavButton(
-                            onTap: _buttonTap,
+                            onTap: setPage,
                             position: _pos,
                             length: _length,
                             isEndDrawer: widget.isEndDrawer,
                             width: widget.width,
-                            color: widget.labelColor,
+                            color: Colors.white,
                             index: _items.indexOf(item),
                             icon: item.icon,
                           );
@@ -243,13 +259,19 @@ class _CurvedDrawerState extends State<CurvedDrawer>
   }
 
   void setPage(int index) {
+    
+     
     _buttonTap(index);
+    
   }
 
   void _buttonTap(int index) {
+ 
+     String title=listpages[index].label;
+
     if (widget.onTap != null) {
       widget.onTap(index);
-     
+       
     }
     final newPosition = index / _length;
     setState(() {
@@ -257,7 +279,14 @@ class _CurvedDrawerState extends State<CurvedDrawer>
       _endingIndex = index;
       _animationController.animateTo(newPosition,
           duration: widget.animationDuration, curve: widget.animationCurve);
-    });
+          //selectedIndex = index; 
+    }
+           );
+        Future.delayed(const Duration(milliseconds: 600), () {
+      Navigator.pushReplacement(context,
+         FadeRoute(page: DrawerExample(index,title)));
+    }); 
+      
   }
 }
 
