@@ -95,7 +95,7 @@ String title;
     // TODO: implement build
     return Scaffold(appBar: AppBar(
                   title: Text(title),
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: Colors.greenAccent[500],
                   leading: Builder(
         builder: (context) => IconButton(
             icon: new Icon(Icons.menu),
