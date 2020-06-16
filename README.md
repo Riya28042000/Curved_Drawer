@@ -23,9 +23,9 @@ Customized Drawer
 
 - [Setup Flutter](https://flutter.dev/docs/get-started/install)
 - Clone Repository<br>
-      - $ git clone https://github.com/Riya28042000/curved_drawer.git<br>
-      - $ cd drawer/<br>
-      - flutter run<br>
+      -  $ git clone https://github.com/Riya28042000/curved_drawer.git<br>
+      -  $ cd drawer/<br>
+      -  flutter run<br>
       
       
       
